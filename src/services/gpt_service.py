@@ -3,18 +3,17 @@ import logging
 
 from openai import OpenAI
 
-from src.config import Config
 from src.services.user_service import UserService
 from src.services.weather_service import WeatherService
 
 
 class GPTService:
-    def __init__(self, config: Config, logger: logging.Logger, weather_service: WeatherService,
-                 user_service: UserService):
+    def __init__(self, logger: logging.Logger, weather_service: WeatherService,
+                 user_service: UserService, openai_client: OpenAI):
         self.logger = logger
         self.weather_service = weather_service
         self.user_service = user_service
-        self.client = OpenAI(api_key=config.OPENAI_API_KEY)
+        self.client = openai_client
 
     def process_message_for_detailed_weather(self, message: str, user_id: str) -> str:
         function = {
@@ -51,7 +50,7 @@ class GPTService:
                     weather_description = str(weather_data)
                     return weather_description
                 else:
-                    self.logger.warning(f"Unexpected function call name: {function_call_data.name}")
+                    self.logger.warning(f"Unexpected function call")
 
         except Exception as e:
             self.logger.error(f"Error in GPTService.process_message_for_detailed_weather: {e}")

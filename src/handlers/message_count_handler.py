@@ -13,7 +13,7 @@ from src.services.user_service import UserService
 @inject
 async def count_handler(
         update: Update,
-        context: CallbackContext,
+        _context: CallbackContext,
         user_service: UserService = Provide[Container.user_service],
         logger: logging.Logger = Provide[Container.logger]
 ) -> None:

@@ -1,9 +1,11 @@
+import sys
+
 from dependency_injector.wiring import inject, Provide
 from telegram.ext import MessageHandler, filters, CommandHandler, PicklePersistence, Application, CallbackQueryHandler
 
-from src.config import Config
+from src.config import Config, Envs
 from src.constants import QUIERO_CLIMA, QUIERO_CUENTA
-from src.containers import Container
+from src.containers import Container, LocalConfigAdapter, ProdConfigAdapter
 from src.handlers.message_count_handler import count_handler, handle_count_anyway
 from src.handlers.start_handler import start
 from src.handlers.weather_handler import get_weather, location_callback, handle_new_location
@@ -33,7 +35,12 @@ def main(config: Config = Provide[Container.config]) -> None:
 
 if __name__ == "__main__":
     # Initialize container
-    container = Container()
+    environment = sys.argv[1] if len(sys.argv) > 1 else "dev"
+    if environment == "prod":
+        adapters = ProdConfigAdapter()
+    else:
+        adapters = LocalConfigAdapter()
+    container = Container(adapters=adapters)
     container.init_resources()
     container.wire(modules=[__name__])
 
@@ -42,5 +49,5 @@ if __name__ == "__main__":
     logger = container.logger()
     logger.info("Starting bot...")
 
-    # Run bot
+    # Run bot - #1 Best Comment of the YEAR!!!!
     main()

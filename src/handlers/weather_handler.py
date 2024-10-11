@@ -73,7 +73,7 @@ async def location_callback(
 async def handle_new_location(
         update: Update,
         context: CallbackContext,
-        user_service: UserService = Provide[Container.user_service],
+        _user_service: UserService = Provide[Container.user_service],
         logger: logging.Logger = Provide[Container.logger],
         gpt_service: GPTService = Provide[Container.gpt_service],
 ) -> None:

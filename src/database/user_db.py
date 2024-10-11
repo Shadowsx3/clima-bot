@@ -1,6 +1,6 @@
 from pymongo.collection import Collection
 
-class User:
+class UserDB:
     def __init__(self, user_id: str, collection: Collection):
         self.user_id = user_id
         self.collection = collection

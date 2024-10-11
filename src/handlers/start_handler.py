@@ -6,7 +6,7 @@ from src.decorators.count_decorator import increase_message_count
 
 
 @increase_message_count
-async def start(update: Update, context: CallbackContext) -> None:
+async def start(update: Update) -> None:
     reply_keyboard = [
         [KeyboardButton(QUIERO_CLIMA), KeyboardButton(QUIERO_CUENTA)]
     ]
