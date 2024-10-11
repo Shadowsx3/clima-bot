@@ -1,9 +1,8 @@
-import os
 import sys
 
+import sentry_sdk
 from dependency_injector.wiring import inject, Provide
-from dotenv import load_dotenv
-from telegram.ext import MessageHandler, filters, CommandHandler, PicklePersistence, Application, CallbackQueryHandler
+from telegram.ext import MessageHandler, filters, CommandHandler, Application, CallbackQueryHandler
 from telegram.request import HTTPXRequest
 
 from src.config import Config
@@ -32,11 +31,9 @@ def main(config: Config = Provide[Container.config]) -> None:
 
     # Handlers for commands
     application.add_handler(CommandHandler("start", start))
-
-    # Weather
     application.add_handler(CommandHandler("clima", get_weather))
-    # Count
     application.add_handler(CommandHandler("contar", count_handler))
+
     # Non-command
     application.add_handler(MessageHandler(filters.Text(QUIERO_CLIMA), get_weather))
     application.add_handler(MessageHandler(filters.Text(QUIERO_CUENTA), count_handler))
@@ -62,11 +59,18 @@ if __name__ == "__main__":
     container = Container(adapters=adapters)
     container.init_resources()
     container.wire(modules=[__name__])
-
     Container.configure_logger()
 
     logger = container.logger()
     logger.info("Starting bot... " + environment)
+
+    if environment != "test" and container.config().SENTRY:
+        sentry_sdk.init(
+            dsn=container.config().SENTRY,
+            traces_sample_rate=1.0,
+            profiles_sample_rate=1.0,
+            environment=environment,
+        )
 
     # Run bot - #1 Best Comment of the YEAR!!!!
     main()

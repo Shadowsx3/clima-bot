@@ -21,9 +21,11 @@ class Config:
     OPENAI_API_KEY = None
     MONGO_URI = None
     PROXY_URL = None
+    SENTRY = None
     ENV = Envs.DEV
 
     def __init__(self):
         self.TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
         self.WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+        self.SENTRY = os.getenv("SENTRY")
