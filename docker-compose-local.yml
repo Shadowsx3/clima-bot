@@ -1,6 +1,8 @@
 services:
   bot:
-    build: ./docker/local
+    build:
+      context: .
+      dockerfile: Dockerfile.test
     container_name: weather_bot
     env_file: .env
     depends_on:

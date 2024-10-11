@@ -18,7 +18,6 @@ from src.handlers.weather_handler import get_weather, location_callback
 @inject
 def main(config: Config = Provide[Container.config]) -> None:
     # Initialize application with persistence
-    persistence = PicklePersistence(filepath="weatherbot")
 
     if config.PROXY_URL:
         httpx_proxy = f"http://{config.PROXY_URL}"
@@ -26,11 +25,10 @@ def main(config: Config = Provide[Container.config]) -> None:
         requests = HTTPXRequest(httpx_kwargs=httpx_kwargs)
         application = Application.builder() \
             .token(config.TELEGRAM_TOKEN) \
-            .persistence(persistence) \
             .request(requests) \
             .build()
     else:
-        application = Application.builder().token(config.TELEGRAM_TOKEN).persistence(persistence).build()
+        application = Application.builder().token(config.TELEGRAM_TOKEN).build()
 
     # Handlers for commands
     application.add_handler(CommandHandler("start", start))
