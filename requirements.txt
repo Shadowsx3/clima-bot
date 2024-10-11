@@ -4,3 +4,5 @@ openai~=1.51.2
 dependency-injector~=4.42.0
 requests~=2.32.3
 pymongo~=4.10.1
+pytest
+pytest-html
