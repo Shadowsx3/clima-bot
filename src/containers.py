@@ -36,7 +36,7 @@ class Container(containers.DeclarativeContainer):
         logger=logger
     )
 
-    openai_client = providers.Factory(OpenAI, api_key=config.OPENAI_API_KEY)
+    openai_client = providers.Factory(OpenAI, api_key=os.getenv("OPENAI_API_KEY"))
     gpt_service = providers.Factory(
         GPTService,
         logger=logger,

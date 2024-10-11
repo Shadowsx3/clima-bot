@@ -9,6 +9,7 @@ from src.decorators.count_decorator import increase_message_count
 from src.services.gpt_service import GPTService
 from src.services.user_service import UserService
 from src.services.weather_service import WeatherService
+from src.utils.weather_mini_app import WeatherMiniApp
 
 
 @increase_message_count
@@ -37,7 +38,6 @@ async def get_weather(
             f"¿Te gustaría usar la última ubicación -> '{last_location}'?",
             reply_markup=reply_markup
         )
-        context.user_data["user"] = user
         context.user_data["last_location"] = last_location
     else:
         await update.message.reply_text("¿Para qué lugar quisieras saber el clima?")
@@ -57,8 +57,8 @@ async def location_callback(
         last_location = context.user_data["last_location"]
         try:
             weather_data = weather_service.get_weather(last_location)
-            weather_response = str(weather_data)
-            await query.edit_message_text(weather_response)
+            mini_app = WeatherMiniApp(weather_data)
+            await query.edit_message_text(str(weather_data), reply_markup=mini_app.get_reply_markup())
         except Exception as e:
             logger.error(f"Error fetching weather data for {last_location}: {e}")
             await query.edit_message_text("Lo siento, no pude obtener el clima para esa ubicación.")
@@ -73,7 +73,7 @@ async def location_callback(
 async def handle_new_location(
         update: Update,
         context: CallbackContext,
-        _user_service: UserService = Provide[Container.user_service],
+        user_service: UserService = Provide[Container.user_service],
         logger: logging.Logger = Provide[Container.logger],
         gpt_service: GPTService = Provide[Container.gpt_service],
 ) -> None:
@@ -82,8 +82,9 @@ async def handle_new_location(
         user_id = str(update.message.from_user.id)
         logger.info(f"Handle new location")
         try:
-            weather_result = gpt_service.process_message_for_detailed_weather(location_text, user_id)
-            await update.message.reply_text(str(weather_result))
+            weather_data = gpt_service.process_message_for_detailed_weather(location_text, user_id)
+            mini_app = WeatherMiniApp(weather_data)
+            await update.message.reply_text(str(weather_data), reply_markup=mini_app.get_reply_markup())
         except Exception as e:
             logger.error(f"Error processing new location '{location_text}': {e}")
             await update.message.reply_text("Lo siento, no pude procesar la ubicación proporcionada.")

@@ -13,7 +13,7 @@ from src.services.user_service import UserService
 @inject
 async def count_handler(
         update: Update,
-        _context: CallbackContext,
+        context: CallbackContext,
         user_service: UserService = Provide[Container.user_service],
         logger: logging.Logger = Provide[Container.logger]
 ) -> None:
@@ -27,9 +27,7 @@ async def count_handler(
         f"El contador es: {user_count}"
     )
 
+
 @increase_message_count
-async def handle_count_anyway(
-        _update: Update,
-        _context: CallbackContext
-) -> None:
+async def handle_count_anyway() -> None:
     pass

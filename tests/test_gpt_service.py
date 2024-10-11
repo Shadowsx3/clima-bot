@@ -41,7 +41,7 @@ class TestGPTService(unittest.TestCase):
         mock_weather_data.__str__.return_value = "Soleado, 25°C"
         self.mock_weather_service.get_weather.return_value = mock_weather_data
 
-        result = self.gpt_service.process_message_for_detailed_weather("Salto,UY", "12345")
+        result = str(self.gpt_service.process_message_for_detailed_weather("Salto,UY", "12345"))
 
         self.mock_openai_client.chat.completions.create.assert_called_once()
 
@@ -70,13 +70,12 @@ class TestGPTService(unittest.TestCase):
     def test_process_message_for_detailed_weather_exception(self):
         self.mock_openai_client.chat.completions.create.side_effect = Exception("OpenAI error")
 
-        result = self.gpt_service.process_message_for_detailed_weather("Salto,UY", "12345")
+        with self.assertRaises(Exception):
+            self.gpt_service.process_message_for_detailed_weather("Salto,UY", "12345")
 
         self.mock_logger.error.assert_called_once_with(
             "Error in GPTService.process_message_for_detailed_weather: OpenAI error"
         )
-
-        self.assertEqual(result, "Lo siento, no pude recuperar la información meteorológica en este momento.")
 
 
 if __name__ == '__main__':
