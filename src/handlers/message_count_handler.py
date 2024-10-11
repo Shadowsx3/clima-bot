@@ -26,8 +26,3 @@ async def count_handler(
     await update.message.reply_text(
         f"El contador es: {user_count}"
     )
-
-
-@increase_message_count
-async def handle_count_anyway() -> None:
-    pass

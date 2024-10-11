@@ -1,9 +1,8 @@
 import logging
 
-import requests
-
 from src.config import Config
 from src.models.weather_response import WeatherResponse
+from utils.clients import get_httpx_client
 
 
 class WeatherService:
@@ -21,7 +20,7 @@ class WeatherService:
             "lang": "es"
         }
 
-        response = requests.get(self.api_url, params=params).json()
+        response = get_httpx_client().get(self.api_url, params=params).json()
 
         if response.get("cod") != 200:
             self.logger.error(f"City not found for request: {location}")

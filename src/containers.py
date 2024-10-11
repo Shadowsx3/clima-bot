@@ -2,13 +2,14 @@ import logging
 import os
 
 from dependency_injector import containers, providers
-from openai import OpenAI
+from dotenv import load_dotenv
 
 from src.config import Config, Envs
 from src.database.database import Database
 from src.services.gpt_service import GPTService
 from src.services.user_service import UserService
 from src.services.weather_service import WeatherService
+from utils.clients import get_openai_client
 
 
 class Container(containers.DeclarativeContainer):
@@ -36,7 +37,7 @@ class Container(containers.DeclarativeContainer):
         logger=logger
     )
 
-    openai_client = providers.Factory(OpenAI, api_key=os.getenv("OPENAI_API_KEY"))
+    openai_client = providers.Factory(get_openai_client)
     gpt_service = providers.Factory(
         GPTService,
         logger=logger,
@@ -51,7 +52,19 @@ class LocalConfigAdapter(containers.DeclarativeContainer):
     def get_config():
         config = Config()
         config.MONGO_URI = os.getenv("MONGO_URI_DEV")
+        config.PROXY_URL = os.getenv("PROXY_URL")
         config.ENV = Envs.DEV
+        return config
+
+    config = providers.Singleton(get_config)
+
+class TestConfigAdapter(containers.DeclarativeContainer):
+    @staticmethod
+    def get_config():
+        config = Config()
+        config.MONGO_URI = os.getenv("MONGO_URI")
+        config.PROXY_URL = None
+        config.ENV = Envs.TEST
         return config
 
     config = providers.Singleton(get_config)
@@ -61,7 +74,8 @@ class ProdConfigAdapter(containers.DeclarativeContainer):
     @staticmethod
     def get_config():
         config = Config()
-        config.MONGO_URI = os.getenv("MONGO_URI")
+        config.MONGO_URI = os.getenv("MONGO_URI_PROD")
+        config.PROXY_URL = None
         config.ENV = Envs.PROD
         return config
 

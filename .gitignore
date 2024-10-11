@@ -92,3 +92,4 @@ cython_debug/
 # Bot data
 weatherbot
 docker-entrypoint-initdb.d/mongo-init.js
+report.html

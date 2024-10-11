@@ -1,0 +1,48 @@
+name: Trigger auto deployment for my-bot-container
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/my-bot-container-AutoDeployTrigger-81d814d2-d30d-4fc2-a43a-aab3a3bddf13.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.MYBOTCONTAINER_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.MYBOTCONTAINER_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.MYBOTCONTAINER_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: botregistrybass.azurecr.io
+          registryUsername: ${{ secrets.MYBOTCONTAINER_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.MYBOTCONTAINER_REGISTRY_PASSWORD }}
+          containerAppName: my-bot-container
+          resourceGroup: bass-bot
+          imageToBuild: botregistrybass.azurecr.io/my-bot-container:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
