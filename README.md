@@ -16,7 +16,8 @@ Built with `Python`, `MongoDB`, `OpenAI`'s ChatGPT, and `OpenWeather` API, the B
 - **Observability with Sentry** 🔍: Detailed tracking of issues and performance.
 - **Docker Compose Setup** 🐳: Simplified testing setup using Docker Compose to minimize overhead.
 - **GitHub Actions Pipeline** ⚙️: Automated testing pipeline to ensure code quality and functionality.
-- **MongoDB Atlas and Azure Container Apps** 🦔: A stable production environment running in the cloud with auto-deployment.
+- **MongoDB Atlas and Azure Container Apps** 🦔: A stable production environment running in the cloud.
+- **UI E2E Tests with Playwright** 🧪: End-to-end tests for the bot's user interface, built with Python and Playwright to ensure smooth, real-world interactions.
 
 ## Requirements 🧰
 
@@ -82,6 +83,16 @@ To interact with the bot:
 ## Testing 🧪
 
 Unit testing for the bot code is included. You can run tests locally using the following command:
+
+```bash
+pytest tests/
+```
+
+### UI End-to-End Testing
+
+End-to-end testing for the bot’s user interface is performed with **Playwright** and **Python**. These tests simulate real user interactions, ensuring the bot performs correctly in real-world scenarios.
+
+To run these tests, open the automation folder and check the readme, then in that folder run:
 
 ```bash
 pytest tests/
