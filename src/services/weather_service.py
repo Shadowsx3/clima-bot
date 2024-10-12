@@ -2,7 +2,7 @@ import logging
 
 from src.config import Config
 from src.models.weather_response import WeatherResponse
-from utils.clients import get_httpx_client
+from src.utils.clients import get_httpx_client
 
 
 class WeatherService:

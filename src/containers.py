@@ -2,14 +2,13 @@ import logging
 import os
 
 from dependency_injector import containers, providers
-from dotenv import load_dotenv
 
 from src.config import Config, Envs
 from src.database.database import Database
 from src.services.gpt_service import GPTService
 from src.services.user_service import UserService
 from src.services.weather_service import WeatherService
-from mini_app.clients import get_openai_client
+from src.utils.clients import get_openai_client
 
 
 class Container(containers.DeclarativeContainer):
