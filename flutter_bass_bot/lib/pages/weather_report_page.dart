@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'weather.dart';
+import '../weather.dart';
 
 class WeatherReport extends StatelessWidget {
   const WeatherReport({Key? key}) : super(key: key);

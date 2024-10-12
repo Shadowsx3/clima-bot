@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'weather_report.dart';
+import 'pages/home_page.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
       ),
-      home: const WeatherReport(),
+      home: const HomePage(),
     );
   }
 }

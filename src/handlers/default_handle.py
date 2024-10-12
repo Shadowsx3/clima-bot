@@ -8,7 +8,7 @@ from src.containers import Container
 from src.decorators.count_decorator import increase_message_count
 from src.services.gpt_service import GPTService
 from src.services.user_service import UserService
-from src.utils.weather_mini_app import WeatherMiniApp
+from src.mini_app.weather_mini_app import WeatherMiniApp
 
 
 @increase_message_count
@@ -23,7 +23,7 @@ async def default_handle(
     if context.user_data.get("awaiting_location", False):
         location_text = update.message.text
         user_id = str(update.message.from_user.id)
-        logger.info(f"Handle new location")
+        logger.info(f"Handle new location for {user_id}")
         try:
             weather_data = gpt_service.process_message_for_detailed_weather(location_text, user_id)
             mini_app = WeatherMiniApp(weather_data)

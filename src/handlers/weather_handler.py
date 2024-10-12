@@ -8,7 +8,7 @@ from src.containers import Container
 from src.decorators.count_decorator import increase_message_count
 from src.services.user_service import UserService
 from src.services.weather_service import WeatherService
-from src.utils.weather_mini_app import WeatherMiniApp
+from src.mini_app.weather_mini_app import WeatherMiniApp
 
 
 @increase_message_count

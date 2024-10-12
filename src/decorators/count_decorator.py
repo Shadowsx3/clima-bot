@@ -21,7 +21,7 @@ def increase_message_count(func):
             *args, **kwargs
     ) -> None:
         user_id = str(update.message.from_user.id)
-        set_user({"user_id": user_id})
+        set_user({"user_id": user_id, "username": update.message.from_user.username})
         user_service.get_user(user_id).increment_count()
         logger.info(f"Increasing count for user {user_id}")
         return await func(update, context, user_service, logger, *args, **kwargs)

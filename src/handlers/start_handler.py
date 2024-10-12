@@ -16,6 +16,8 @@ from src.services.user_service import UserService
 async def start(update: Update, context: CallbackContext,
                 user_service: UserService = Provide[Container.user_service],
                 logger: logging.Logger = Provide[Container.logger]) -> None:
+    user_id = str(update.message.from_user.id)
+    logger.info(f"Call to start from {user_id}")
     reply_keyboard = [
         [KeyboardButton(QUIERO_CLIMA), KeyboardButton(QUIERO_CUENTA)]
     ]

@@ -9,7 +9,7 @@ from src.database.database import Database
 from src.services.gpt_service import GPTService
 from src.services.user_service import UserService
 from src.services.weather_service import WeatherService
-from utils.clients import get_openai_client
+from mini_app.clients import get_openai_client
 
 
 class Container(containers.DeclarativeContainer):

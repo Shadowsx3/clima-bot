@@ -1,18 +1,28 @@
 # 🦔 Bass Weather Bot 🦔
 
-Welcome to **Bass Weather Bot**! 🌦️🤖 This bot provides real-time weather information and counting!!!!.  
-Built with `Python`, `MongoDB`, `OpenAI`'s ChatGPT, and `OpenWeather` API, this bot is a great companion for anyone who wants weather updates with a hint of hedgehog cuteness!
+Welcome to **Bass Weather Bot**! 🌦️🤖 This bot provides real-time weather information and even tracks your interactions with it.  
+Built with `Python`, `MongoDB`, `OpenAI`'s ChatGPT, and `OpenWeather` API, the Bass Weather Bot offers up-to-date weather info with a hint of hedgehog charm!
 
 ## Features 🦔
 
 - **Real-time Weather** 🌍: Just ask for the weather in any location, and the bot will provide up-to-date info.
 - **Persistent Conversations** 💾: Remembers your last location to make future requests even quicker.
-- **User Tracking** 👥: Keeps track of how many messages you've sent and stores your preferences.
+- **User Tracking** 👥: Keeps track of your interactions and stores preferences.
+- **Mini Flutter App** 📱: A companion Flutter mini-app hosted on Vercel and integrated with the bot to display weather information.
+- **Web Landing Page** 🖥️: A small landing page hosted on Vercel with a custom domain, accessible at [https://bot.bassmd0.com/](https://bot.bassmd0.com/).
+- **Traffic Proxy** 🔍: A proxy on `helper_proxy` to inspect bot traffic on the local env.
+- **Continuous Deployment** 🚀: Automatic deployments from the main branch to a container app on Azure.
+- **Grafana Monitoring** 📊: Access to comprehensive logs and metrics via Grafana hosted on Azure.
+- **Observability with Sentry** 🔍: Detailed tracking of issues and performance.
+- **Docker Compose Setup** 🐳: Simplified testing setup using Docker Compose to minimize overhead.
+- **GitHub Actions Pipeline** ⚙️: Automated testing pipeline to ensure code quality and functionality.
+- **MongoDB Atlas and Azure Container Apps** 🦔: A stable production environment running in the cloud with auto-deployment.
 
 ## Requirements 🧰
 
 - Docker 🐳
 - Docker Compose
+- Mitmproxy -> To debug connections (optional)
 - Telegram Bot API Token
 - OpenWeather API Key 🌤️
 - OpenAI API Key 🔑
@@ -26,7 +36,7 @@ git clone https://github.com/Shadowsx3/clima-bot.git
 cd clima-bot
 ```
 
-### 2. Configure Environment Variables
+### 2. Configure Environment
 
 Copy the `.env.example` file to `.env` and fill in the required variables.
 
@@ -34,58 +44,79 @@ Copy the `.env.example` file to `.env` and fill in the required variables.
 cp .env.example .env
 ```
 
-In your `.env` file, you should include:
+In your `.env` file, include:
 ```
 TELEGRAM_TOKEN=your_telegram_bot_token
 WEATHER_API_KEY=your_openweather_api_key
 OPENAI_API_KEY=your_openai_api_key
-MONGO_URI=mongodb://username:password@mongo:27017
 ```
 
-Copy the `example.mongo-init.js` file to `mongo-init.js` and update the password.
+Copy the `example.mongo-init.js` file to `mongo-init.js` and update the MongoDB credentials.
 
 ### 3. Build and Run with Docker 🐳
 
-Use `docker-compose` to build and run the project. This will create two containers: one for the bot and one for MongoDB.
+Use `docker-compose` to build and run the project. This will create the containers necessary for the bot, MongoDB, and other services.
 
 ```bash
 docker-compose up --build
 ```
 
-This will start both the `mongo` and `bot` containers. The bot will now be live and listening for commands on Telegram!
+This will start both the `mongo` and `bot` containers, as well as any supporting services for local testing. The bot will now be live and listening for commands on Telegram!
 
 ## Usage 🚀
 
 To interact with the bot:
 
-1. Open Telegram and search for your bot (by the name you configured it with).
+1. Open Telegram and search for your bot by the name you configured.
 2. Use `/start` to initiate a conversation.
-3. You can ask for the weather in any location with the following command:
-   - `/clima`
-4. The bot will remember the last location you asked about and will ask if you'd like to reuse it the next time you request weather info.
+3. Use `/clima` to get the weather in any location. 
+4. Use `/contar` to count!!!!!
+5. The bot will remember the last location you asked about and will ask if you'd like to reuse it the next time you request weather info.
 
-### Commands Available 🗂️
+### Available Commands 🗂️
 
 - **/start**: Begin a new conversation.
-- **/clima**: Get the weather for a specified location. The bot will remember this location for the next time.
-- **/contar**: Show all the data the bot remembers about you (just the count).
+- **/clima**: Get the weather for a specified location. The bot will remember this location for future queries.
+- **/contar**: View the interaction count and details the bot remembers about you.
+
+## Testing 🧪
+
+Unit testing for the bot code is included. You can run tests locally using the following command:
+
+```bash
+pytest tests/
+```
+
+### GitHub Actions Pipeline
+
+The project includes a GitHub Actions pipeline to automate testing on every push and pull request to the `main` branch. This ensures all new changes are tested before merging.
+
+The pipeline configuration is in `.github/workflows/python-test.yml`, which includes the following steps:
+
+1. **Setup Environment**: Checks out the code and sets up a Python environment.
+2. **Install Dependencies**: Installs all necessary dependencies specified in `requirements.txt`.
+3. **Run Tests**: Executes unit tests using `pytest` to then generate and upload a report.
+
+The pipeline automatically runs on GitHub when new commits are pushed or a pull request is opened.
+
+## Observability 🔍
+
+- **Grafana**: To monitor application performance and logs.
+- **Sentry**: Any errors or performance issues will be logged to Sentry, providing detailed information for debugging.
 
 ## Troubleshooting 🐞
 
-No
-
 ### Common Issues
 
-- **MongoDB Connection**: If the bot has trouble connecting to MongoDB, ensure your `MONGO_URI` in the `.env` file matches the database credentials.
-- **API Keys**: Double-check that your API keys are correct and haven't expired.
+- **MongoDB Connection**: If the bot has trouble connecting to MongoDB, ensure that your `MONGO_URI` in the `.env` file is correct and reachable.
+- **API Keys**: Double-check that your API keys are correct and haven’t expired...
+- **Grafana or Sentry Access**: Ensure that you have access... to an Azure account on the tenant
 
 ## Contributing 🧑‍💻
 
-We love contributions! Feel free to open issues or create pull requests. Here are some areas where we could use help:
+We welcome contributions! Feel free to ~~open issues~~ or create pull requests. Here are some areas where you can help:
 
-- Add more conversation types
-- Integrate additional features like reminders or notifications
-- Localize the bot for other languages
+- Everything
 
 ## License 📄
 
@@ -93,4 +124,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Thanks for using **Bass Weather Bot**! We hope you enjoy your conversations with the ~~hedgehog~~ Bass bot. 🦔
+Thanks for using **Bass Weather Bot**! Enjoy your interactions with our ~~hedgehog~~ Bass bot. 🦔
