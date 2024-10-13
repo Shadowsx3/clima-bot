@@ -2,6 +2,7 @@ import logging
 
 from dependency_injector.wiring import Provide
 from telegram import Update
+from telegram.error import Conflict
 from telegram.ext import CallbackContext
 
 from src.containers import Container
@@ -11,7 +12,7 @@ from src.mini_app.weather_mini_app import WeatherMiniApp
 
 
 @increase_message_count
-async def default_handle(
+async def default_handler(
         update: Update,
         context: CallbackContext,
         logger: logging.Logger = Provide[Container.logger],
@@ -30,3 +31,12 @@ async def default_handle(
             await update.message.reply_text("Lo siento, no pude procesar la ubicación proporcionada.")
         finally:
             context.user_data["awaiting_location"] = False
+
+
+async def error_handler(
+        update: Update, context: CallbackContext,
+        logger: logging.Logger = Provide[Container.logger]
+) -> None:
+    logger.error(f"Exception while handling an update: {type(context.error).__name__}")
+    if isinstance(context.error, Conflict):
+        logger.error("Conflict error: Bot is likely running in multiple instances.")

@@ -93,3 +93,6 @@ cython_debug/
 weatherbot
 docker-entrypoint-initdb.d/mongo-init.js
 report.html
+
+# Mac, wow
+.DS_Store

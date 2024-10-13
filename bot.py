@@ -6,9 +6,9 @@ from telegram.ext import MessageHandler, filters, CommandHandler, Application, C
 from telegram.request import HTTPXRequest
 
 from src.config import Config
+from src.handlers.default_handler import error_handler, default_handler
 from src.utils.constants import QUIERO_CLIMA, QUIERO_CUENTA
 from src.containers import Container, LocalConfigAdapter, ProdConfigAdapter, TestConfigAdapter
-from src.handlers.default_handle import default_handle
 from src.handlers.message_count_handler import count_handler
 from src.handlers.start_handler import start
 from src.handlers.weather_handler import get_weather, location_callback
@@ -35,7 +35,10 @@ def main(config: Config = Provide[Container.config]) -> None:
     application.add_handler(MessageHandler(filters.Regex(f"^{QUIERO_CLIMA}$"), get_weather))
     application.add_handler(MessageHandler(filters.Regex(f"^{QUIERO_CUENTA}$"), count_handler))
     application.add_handler(CallbackQueryHandler(location_callback))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, default_handle))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, default_handler))
+
+    # Add error handler
+    application.add_error_handler(error_handler)
 
     application.run_polling()
 

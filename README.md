@@ -10,7 +10,7 @@ Built with `Python`, `MongoDB`, `OpenAI`'s ChatGPT, and `OpenWeather` API, the B
 - **User Tracking** 👥: Keeps track of your interactions and stores preferences.
 - **Mini Flutter App** 📱: A companion Flutter mini-app hosted on Vercel and integrated with the bot to display weather information.
 - **Web Landing Page** 🖥️: A small landing page hosted on Vercel with a custom domain, accessible at [https://bot.bassmd0.com/](https://bot.bassmd0.com/).
-- **Traffic Proxy** 🔍: A proxy on `helper_proxy` to inspect bot traffic on the local env.
+- **Traffic Proxy** 🔍: A proxy on `proxy_helper` to inspect bot traffic on the local env.
 - **Continuous Deployment** 🚀: Automatic deployments from the main branch to a container app on Azure.
 - **Grafana Monitoring** 📊: Access to comprehensive logs and metrics via Grafana hosted on Azure.
 - **Observability with Sentry** 🔍: Detailed tracking of issues and performance.

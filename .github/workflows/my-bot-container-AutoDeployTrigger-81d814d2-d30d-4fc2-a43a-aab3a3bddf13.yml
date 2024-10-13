@@ -60,6 +60,7 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
+          export RELEASE_VERSION=${{ github.sha }}
           sentry-cli releases finalize $RELEASE_VERSION
           sentry-cli releases deploys $RELEASE_VERSION new -e prod
 
