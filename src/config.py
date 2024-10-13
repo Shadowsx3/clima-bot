@@ -5,7 +5,6 @@ from enum import Enum
 from dotenv import load_dotenv
 
 load_dotenv()
-load_dotenv(".env.prod", override=True, verbose=True)
 
 
 class Envs(Enum):

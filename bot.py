@@ -2,6 +2,7 @@ import sys
 
 import sentry_sdk
 from dependency_injector.wiring import Provide
+from dotenv import load_dotenv
 from telegram.ext import MessageHandler, filters, CommandHandler, Application, CallbackQueryHandler
 from telegram.request import HTTPXRequest
 
@@ -53,6 +54,7 @@ if __name__ == "__main__":
     # Initialize container
     match environment:
         case "prod":
+            load_dotenv(".env.prod", override=True)
             adapters = ProdConfigAdapter()
         case "dev":
             adapters = LocalConfigAdapter()

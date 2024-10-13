@@ -1,75 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bass_bot/pages/landing/call_to_action.dart';
+import 'package:flutter_bass_bot/pages/landing/features_list.dart';
+import 'package:flutter_bass_bot/pages/landing/footer.dart';
+import 'package:flutter_bass_bot/pages/landing/header.dart';
+import 'package:flutter_bass_bot/pages/landing/introduction.dart';
+import 'package:flutter_bass_bot/pages/landing/technology_stack.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ShaderMask(
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [
-                  Colors.red,
-                  Colors.orange,
-                  Colors.yellow,
-                  Colors.green,
-                  Colors.blue,
-                  Colors.indigo,
-                  Colors.purple,
-                ],
-              ).createShader(bounds),
-              child: const Text(
-                '🦔 Welcome to Hedgehog Weather! 🦔',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color.fromARGB(255, 55, 206, 145), Color(0xFFB5FE01)],
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: const Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Header(),
+                    SizedBox(height: 40),
+                    Introduction(),
+                    SizedBox(height: 40),
+                    FeaturesList(),
+                    SizedBox(height: 40),
+                    TechnologyStack(),
+                    SizedBox(height: 40),
+                    CallToAction(),
+                    SizedBox(height: 40),
+                    Footer(),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 30),
-            const Text(
-              'Get weather updates and count with our Telegram bot!',
-              style: TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                launchUrl(Uri.parse('https://t.me/Bas5WeatherBot'));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Open @Bas5WeatherBot on Telegram'),
-            ),
-            const SizedBox(height: 40),
-            const Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: [
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-                Text('🦔', style: TextStyle(fontSize: 40)),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

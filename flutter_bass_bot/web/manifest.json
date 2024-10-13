@@ -1,11 +1,11 @@
 {
-  "name": "flutter_bass_bot",
-  "short_name": "flutter_bass_bot",
+  "name": "Bass Weather Bot",
+  "short_name": "Bass Weather Bot",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0175C2",
   "theme_color": "#0175C2",
-  "description": "A new Flutter project.",
+  "description": "An old Flutter project.",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [
