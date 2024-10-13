@@ -1,6 +1,6 @@
 import logging
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -10,10 +10,9 @@ from src.services.user_service import UserService
 
 
 @increase_message_count
-@inject
 async def count_handler(
         update: Update,
-        context: CallbackContext,
+        _context: CallbackContext,
         user_service: UserService = Provide[Container.user_service],
         logger: logging.Logger = Provide[Container.logger]
 ) -> None:

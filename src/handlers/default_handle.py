@@ -1,22 +1,19 @@
 import logging
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from src.containers import Container
 from src.decorators.count_decorator import increase_message_count
 from src.services.gpt_service import GPTService
-from src.services.user_service import UserService
 from src.mini_app.weather_mini_app import WeatherMiniApp
 
 
 @increase_message_count
-@inject
 async def default_handle(
         update: Update,
         context: CallbackContext,
-        user_service: UserService = Provide[Container.user_service],
         logger: logging.Logger = Provide[Container.logger],
         gpt_service: GPTService = Provide[Container.gpt_service],
 ) -> None:

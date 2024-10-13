@@ -44,12 +44,13 @@ def main(config: Config = Provide[Container.config]) -> None:
 
 
 if __name__ == "__main__":
-    # Initialize container
+    # Parse env arg
     if len(sys.argv) > 1:
         environment = sys.argv[1]
     else:
         environment = "dev"
 
+    # Initialize container
     if environment == "prod":
         adapters = ProdConfigAdapter()
     elif environment == "dev":
@@ -58,7 +59,7 @@ if __name__ == "__main__":
         adapters = TestConfigAdapter()
     container = Container(adapters=adapters)
     container.init_resources()
-    container.wire(modules=[__name__])
+    container.wire(modules=[__name__], packages=["src.decorators", "src.handlers"])
     Container.configure_logger()
 
     logger = container.logger()

@@ -1,6 +1,6 @@
 import logging
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide
 from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram import Update
 from telegram.ext import CallbackContext
@@ -8,13 +8,10 @@ from telegram.ext import CallbackContext
 from src.constants import QUIERO_CLIMA, QUIERO_CUENTA
 from src.containers import Container
 from src.decorators.count_decorator import increase_message_count
-from src.services.user_service import UserService
 
 
 @increase_message_count
-@inject
-async def start(update: Update, context: CallbackContext,
-                user_service: UserService = Provide[Container.user_service],
+async def start(update: Update, _context: CallbackContext,
                 logger: logging.Logger = Provide[Container.logger]) -> None:
     user_id = str(update.message.from_user.id)
     logger.info(f"Call to start from {user_id}")

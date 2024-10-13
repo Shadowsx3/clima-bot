@@ -12,7 +12,6 @@ from src.mini_app.weather_mini_app import WeatherMiniApp
 
 
 @increase_message_count
-@inject
 async def get_weather(
         update: Update,
         context: CallbackContext,
@@ -43,7 +42,6 @@ async def get_weather(
         context.user_data["awaiting_location"] = True
 
 
-@inject
 async def location_callback(
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
