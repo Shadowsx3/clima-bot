@@ -43,6 +43,7 @@ async def get_weather(
         context.user_data["awaiting_location"] = True
 
 
+@inject
 async def location_callback(
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
