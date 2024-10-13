@@ -4,25 +4,36 @@ name: Trigger auto deployment for my-bot-container
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
+    branches:
       [ main ]
     paths:
-    - '**'
-    - '.github/workflows/my-bot-container-AutoDeployTrigger-81d814d2-d30d-4fc2-a43a-aab3a3bddf13.yml'
+      - '**'
+      - '.github/workflows/my-bot-container-AutoDeployTrigger-81d814d2-d30d-4fc2-a43a-aab3a3bddf13.yml'
 
   # Allow manual trigger 
-  workflow_dispatch:      
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
     steps:
       - name: Checkout to the branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Create Sentry Release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          curl -sL https://sentry.io/get-cli/ | bash
+          export SENTRY_ORG=manuel-vu
+          export SENTRY_PROJECT=bot-python
+          export RELEASE_VERSION=${{ github.sha }}
+          sentry-cli releases new $RELEASE_VERSION
+          sentry-cli releases set-commits --auto $RELEASE_VERSION
 
       - name: Azure Login
         uses: azure/login@v1
@@ -44,5 +55,12 @@ jobs:
           imageToBuild: botregistrybass.azurecr.io/my-bot-container:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
+      - name: Finalize Sentry Release
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          sentry-cli releases finalize $RELEASE_VERSION
+          sentry-cli releases deploys $RELEASE_VERSION new -e prod
 
 
