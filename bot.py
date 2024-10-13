@@ -14,10 +14,7 @@ from src.handlers.start_handler import start
 from src.handlers.weather_handler import get_weather, location_callback
 
 
-@inject
 def main(config: Config = Provide[Container.config]) -> None:
-    # Initialize application with persistence
-
     if config.PROXY_URL:
         httpx_proxy = f"http://{config.PROXY_URL}"
         httpx_kwargs = {"verify": False, "proxies": httpx_proxy}
@@ -35,8 +32,8 @@ def main(config: Config = Provide[Container.config]) -> None:
     application.add_handler(CommandHandler("contar", count_handler))
 
     # Non-command
-    application.add_handler(MessageHandler(filters.Text(QUIERO_CLIMA), get_weather))
-    application.add_handler(MessageHandler(filters.Text(QUIERO_CUENTA), count_handler))
+    application.add_handler(MessageHandler(filters.Regex(f"^{QUIERO_CLIMA}$"), get_weather))
+    application.add_handler(MessageHandler(filters.Regex(f"^{QUIERO_CUENTA}$"), count_handler))
     application.add_handler(CallbackQueryHandler(location_callback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, default_handle))
 
@@ -51,16 +48,16 @@ if __name__ == "__main__":
         environment = "dev"
 
     # Initialize container
-    if environment == "prod":
-        adapters = ProdConfigAdapter()
-    elif environment == "dev":
-        adapters = LocalConfigAdapter()
-    else:
-        adapters = TestConfigAdapter()
+    match environment:
+        case "prod":
+            adapters = ProdConfigAdapter()
+        case "dev":
+            adapters = LocalConfigAdapter()
+        case _:
+            adapters = TestConfigAdapter()
     container = Container(adapters=adapters)
     container.init_resources()
     container.wire(modules=[__name__], packages=["src.decorators", "src.handlers"])
-    Container.configure_logger()
 
     logger = container.logger()
     logger.info("Starting bot... " + environment)
