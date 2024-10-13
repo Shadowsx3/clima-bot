@@ -1,6 +1,6 @@
 import logging
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes, CallbackContext
 

@@ -36,15 +36,11 @@ python main.py
 
 ---
 
-### Connecting Your Phone to mitmproxy
+### Connecting to mitmproxy
 
-1**Set Up Proxy on Your Phone**:
+1**Set Up Proxy on Your .env file**:
    - **Proxy IP**: Enter your computer's IP address.
    - **Port**: Enter the port of mitmproxy (e.g., `8081`).
-
-2**Install mitmproxy CA Certificate on Your Phone**:
-   - Open your phone's browser and go to: `http://mitm.it`
-   - Follow the instructions to download and install the mitmproxy certificate for your platform (iOS/Android).
 
 Once connected, all HTTP traffic from your phone will be routed through mitmproxy, and you can intercept and modify responses.
 
@@ -57,7 +53,7 @@ Here's an example of what the interface looks like:
 
 ```text
 Interceptor Status:
-[X] Firmware Update (ID: 0)
+[X] Send message Mock (ID: 0)
 [ ] Firmware Error (ID: 1)
 ```
 
@@ -91,32 +87,6 @@ You can define custom interceptors inside the `interceptor_manager.py` file. Eac
     "call": mock_function              # Function to call when the interceptor is triggered
 }
 ```
-
-#### Example Interceptor Configuration
-
-In the example provided, two interceptors are preconfigured:
-
-```python
-interceptors = [
-    {
-        "name": "Firmware Update",
-        "response": True,
-        "enabled": True,
-        "match": {"url": "/firmware"},
-        "call": mock_firmware_update,
-    },
-    {
-        "name": "An Example",
-        "response": True,
-        "enabled": False,
-        "match": {"url": "idk.com"},
-        "call": mockServerError,
-    },
-]
-```
-
-- **Firmware Update**: This is enabled by default and intercepts requests to `/firmware`.
-- **An Example**: This is disabled by default and intercepts requests to `idk.com`.
 
 ### Adding New Interceptors
 

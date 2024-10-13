@@ -21,7 +21,6 @@ def increase_message_count(func):
         user_id = str(update.message.from_user.id)
         set_user({"user_id": user_id, "username": update.message.from_user.username})
 
-        # Increment user message count
         user_service.get_user(user_id).increment_count()
         logger.info(f"Increasing count for user {user_id}")
 
@@ -30,6 +29,8 @@ def increase_message_count(func):
     return wrapper
 
 
-def get_dependencies(user_service: UserService = Provide[Container.user_service],
-             logger: logging.Logger = Provide[Container.logger]):
+def get_dependencies(
+        user_service: UserService = Provide[Container.user_service],
+        logger: logging.Logger = Provide[Container.logger]
+):
     return user_service, logger

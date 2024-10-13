@@ -5,7 +5,7 @@ from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from src.constants import QUIERO_CLIMA, QUIERO_CUENTA
+from src.utils.constants import QUIERO_CLIMA, QUIERO_CUENTA
 from src.containers import Container
 from src.decorators.count_decorator import increase_message_count
 

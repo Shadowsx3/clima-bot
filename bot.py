@@ -1,12 +1,12 @@
 import sys
 
 import sentry_sdk
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide
 from telegram.ext import MessageHandler, filters, CommandHandler, Application, CallbackQueryHandler
 from telegram.request import HTTPXRequest
 
 from src.config import Config
-from src.constants import QUIERO_CLIMA, QUIERO_CUENTA
+from src.utils.constants import QUIERO_CLIMA, QUIERO_CUENTA
 from src.containers import Container, LocalConfigAdapter, ProdConfigAdapter, TestConfigAdapter
 from src.handlers.default_handle import default_handle
 from src.handlers.message_count_handler import count_handler

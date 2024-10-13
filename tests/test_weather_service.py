@@ -2,10 +2,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 import logging
 
-from dotenv import load_dotenv
-
 from src.config import Config
-from src.models.weather_response import WeatherResponse
 from src.services.weather_service import WeatherService
 
 
