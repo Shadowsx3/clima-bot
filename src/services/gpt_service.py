@@ -32,7 +32,7 @@ class GPTService:
             }
         }
         try:
-            response = self.client.chat.completions.create(model="gpt-3.5-turbo",
+            response = self.client.chat.completions.create(model="gpt-4o-mini",
                                                            messages=[
                                                                {"role": "user", "content": f"Clima de: {message}"}],
                                                            functions=[function],
